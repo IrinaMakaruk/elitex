@@ -1,0 +1,18 @@
+@import '../../../styles/mixins.scss';
+
+@include respond-to($phone, $max) {
+  .name-input {
+    width: 100%;
+  }
+  .amount-input {
+    width: 85%;
+  }
+}
+
+.name-input {
+  padding-right: 15px;
+}
+
+.add-button {
+  border-radius: 100%;
+}

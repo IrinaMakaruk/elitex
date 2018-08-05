@@ -1,0 +1,14 @@
+@import '../styles/_variables.scss';
+
+.wrapper-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $projectBackground;
+  overflow: hidden;
+  padding-bottom: 50px;
+}
+
+widget {
+  overflow-y: auto;
+}

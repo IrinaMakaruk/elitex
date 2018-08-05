@@ -1,0 +1,9 @@
+$phone: '415px';
+$min: 'min';
+$max: 'max';
+
+@mixin respond-to($width, $type) {
+	@media only screen and (#{$type}-width: $width) {
+		@content;
+	}
+}

@@ -1,0 +1,44 @@
+<mat-card-content>
+  <form [formGroup]="addExpanseForm">
+    <mat-form-field class="name-input">
+      <input matInput required
+             placeholder="name" 
+             name="name" 
+             formControlName="name" 
+             (ngModelChange)="onChange(addExpanseForm.get('name'),'name')"
+      >
+      <mat-error class="error-message" *ngIf="addExpanseForm.get('name')?.errors?.pattern">
+          {{errorMessages.namePattern}}
+      </mat-error>
+      <mat-error class="error-message" *ngIf="addExpanseForm.get('name')?.errors?.required">
+          {{errorMessages.required}}
+      </mat-error>
+      <mat-error class="error-message" *ngIf="addExpanseForm.get('name')?.errors?.maxlength">
+          {{errorMessages.maxLength}}
+      </mat-error> 
+    </mat-form-field>
+    <mat-form-field class="amount-input">
+      <input matInput required
+             placeholder="amount" 
+             name="amount" 
+             formControlName="amount" 
+             (ngModelChange)="onChange(addExpanseForm.get('amount'),'amount')"
+      >
+      <mat-error class="error-message" *ngIf="addExpanseForm.get('amount')?.errors?.pattern">
+        {{errorMessages.amountPattern}}
+      </mat-error>
+      <mat-error class="error-message" *ngIf="addExpanseForm.get('amount')?.errors?.required">
+          {{errorMessages.required}}
+      </mat-error>
+      <mat-error class="error-message" *ngIf="addExpanseForm.get('amount')?.errors?.maxlength">
+          {{errorMessages.maxLength}}
+      </mat-error> 
+    </mat-form-field>
+    <button class="add-button"
+            mat-mini-fab 
+            color="primary"
+            [disabled]="checkValidity(addExpanseForm)" (click)="addItem()">+</button>
+  </form>
+</mat-card-content>
+
+  
