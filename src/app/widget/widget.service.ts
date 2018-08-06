@@ -5,22 +5,14 @@ import { catchError, map } from 'rxjs/operators'
 
 @Injectable()
 export class WidgetService {
- 
+  private apiUrl = 'http://localhost:4200/assets/data.json';
+
   constructor(private http: HttpClient) { }
 
   getTableData() {
-    const apiUrl = 'http://localhost:4200/assets/data.json';
-    return this.http.get(apiUrl)
+    return this.http.get(this.apiUrl)
     .pipe(
       catchError(this.handleError('getTableData', []))
-    );
-  }
-
-  postRowIntoTable(body) {
-    const apiUrl = 'http://localhost:4200/assets/data.json';
-    return this.http.post(apiUrl, body)
-    .pipe(
-      catchError(this.handleError('postRowIntoTable', []))
     );
   }
 

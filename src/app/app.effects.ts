@@ -14,22 +14,23 @@ import Transactions from './api/interface';
 
 @Injectable()
 export class AppEffects {
-    @Effect()
-    get$: Observable<any> = this.actions$.pipe(
-      ofType<actions.GetTableData>(actions.GET_TABLE_DATA),
-      switchMap(() =>
-          this.widgetService
-              .getTableData().pipe(
-                map((res: Transactions[]) => ({ type: actions.GET_DATA_SUCCESS, payload: res }) ,
-                catchError(() => of({ type: actions.GET_DATA_FAILED })
-              )
+  @Effect()
+  get$: Observable<any> = this.actions$.pipe(
+    ofType<actions.GetTableData>(actions.GET_TABLE_DATA),
+    switchMap(() =>
+        this.widgetService
+            .getTableData().pipe(
+              map((res: Transactions[]) => ({ type: actions.GET_DATA_SUCCESS, payload: res }) ,
+              catchError(() => of({ type: actions.GET_DATA_FAILED })
             )
           )
         )
-      );      
+      )
+    ); 
+
     constructor(
-        private widgetService: WidgetService,
-        private actions$: Actions
+      private widgetService: WidgetService,
+      private actions$: Actions
     ) {}
 }
 

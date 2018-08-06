@@ -25,7 +25,8 @@
   @ViewChild(MatSort) sort: MatSort;
 
   title: string = 'Expenses';
-  edit: boolean = false; 
+  edit: boolean = false;
+  totalCost: number;
   panelOpenState: boolean = false;
   displayedColumns: string[] = ['name', 'amount'];
   dataSource: MatTableDataSource<Transactions>;
@@ -63,13 +64,13 @@
   }
 
   getTotalCost() {
-    return _.map(this.dataSource.data, t => t.amount).reduce((acc, value) => acc + value, 0);
+    this.totalCost = _.map(this.dataSource.data, t => t.amount).reduce((acc, value) => acc + value, 0);
   }
 
   addItem(data) {
     let createTableAction: AppAction<any> = {
       type: ADD_NEW_ROW,
-      payload: { name: data.name, amount: data.amount }
+      payload: { name: data.name, amount: Number(data.amount)}
     }
     this.updateDataSource();
     this.store.dispatch(createTableAction);
@@ -85,7 +86,6 @@
     let getAction: Action = {
       type: GET_TABLE_DATA      
     }
-
     this.subscription = this.tableState$.subscribe((table) => {
       this.dataSource = new MatTableDataSource(table._data);
       this.updateDataSource();
@@ -95,7 +95,10 @@
   }
 
   private updateDataSource() {
-    this.dataSource.paginator = this.paginator;
+    const sum = obj => _.sum(_.map(obj.data, t => t.amount));
+    const setValue = val => this.dataSource[val] = this['val']
+    setValue('paginator');
     this.dataSource.sort = this.sort;
+    this.totalCost = sum(this.dataSource);
   }
 }
