@@ -1,11 +1,7 @@
 import Transactions from './api/interface';
 
-export interface Table {
-  _data: Transactions[];
-}
-
-export const initializeState = (): Table => {
+export const initializeState = (): Transactions => {
   return ({
-    _data : null
-  })
+    _data : [{name: 'No Data', amount: 0}]
+  });
 }

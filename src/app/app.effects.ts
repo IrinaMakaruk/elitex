@@ -1,24 +1,35 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Actions, Effect,ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators'
+import { Action } from '@ngrx/store';
 
-import { GET_TABLE_DATA } from './app.actions';
+import { Actions, Effect ,ofType } from '@ngrx/effects';
+import { map, catchError } from 'rxjs/operators'
+
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+import { WidgetService } from './widget/widget.service';
+
+import * as actions from './app.actions';
+import Transactions from './api/interface';
 
 @Injectable()
 export class AppEffects {
-  constructor(
-    private http: HttpClient,
-    private actions$: Actions
-  ) { }
-
-  @Effect() getTableData$ = this.actions$.pipe(
-    ofType(GET_TABLE_DATA),
-    switchMap(payload => this.http.get('/api/tableData'),
-    map((res: Response)=> ({ type: 'LOGIN_SUCCESS', payload: res.json() }))),
-    catchError(() => of({ type: 'LOGIN_FAILED' })
-  )
-
-      );
+    @Effect()
+    get$: Observable<any> = this.actions$.pipe(
+      ofType<actions.GetTableData>(actions.GET_TABLE_DATA),
+      switchMap(() =>
+          this.widgetService
+              .getTableData().pipe(
+                map((res: Transactions[]) => ({ type: actions.GET_DATA_SUCCESS, payload: res }) ,
+                catchError(() => of({ type: actions.GET_DATA_FAILED })
+              )
+            )
+          )
+        )
+      );      
+    constructor(
+        private widgetService: WidgetService,
+        private actions$: Actions
+    ) {}
 }
+

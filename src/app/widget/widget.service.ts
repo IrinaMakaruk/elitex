@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
+import { catchError, map } from 'rxjs/operators'
 
 @Injectable()
 export class WidgetService {
@@ -10,11 +9,18 @@ export class WidgetService {
   constructor(private http: HttpClient) { }
 
   getTableData() {
-    const apiUrl = '/api/tableData';
+    const apiUrl = 'http://localhost:4200/assets/data.json';
     return this.http.get(apiUrl)
     .pipe(
-      tap(data => console.error('fetched data', data)),
       catchError(this.handleError('getTableData', []))
+    );
+  }
+
+  postRowIntoTable(body) {
+    const apiUrl = 'http://localhost:4200/assets/data.json';
+    return this.http.post(apiUrl, body)
+    .pipe(
+      catchError(this.handleError('postRowIntoTable', []))
     );
   }
 

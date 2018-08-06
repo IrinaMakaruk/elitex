@@ -43,9 +43,9 @@ import { AppEffects } from './app.effects';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      Api, { dataEncapsulation: false }
-    ),
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   Api, { dataEncapsulation: false }
+    // ),
     StoreModule.forRoot({ tableData: AppReducer }),
     EffectsModule.forRoot([AppEffects]),
 

@@ -4,15 +4,14 @@
 
   import * as _ from 'lodash';
 
-  import Transaction from '../api/interface';
+  import Transactions from '../api/interface';
   import { WidgetService } from './widget.service';
 
   import { Store, select, Action } from '@ngrx/store';
   import { Observable, Subscription } from 'rxjs';
-  import { AddNewRow, ADD_NEW_ROW, GET_TABLE_DATA} from '../app.actions';
-  import { AppReducer } from '../app.reducer';
+  
+  import { ADD_NEW_ROW, GET_TABLE_DATA} from '../app.actions';
   import AppAction from '../app.actions';
-  import { Table } from '../app.state';
 
   @Component({
   selector: 'widget',
@@ -29,11 +28,11 @@
   edit: boolean = false; 
   panelOpenState: boolean = false;
   displayedColumns: string[] = ['name', 'amount'];
-  dataSource: MatTableDataSource<Transaction>;
-  tableState$: Observable<Table>;
+  dataSource: MatTableDataSource<Transactions>;
+  tableState$: Observable<any>;
   subscription: Subscription;
 
-  constructor(private store: Store<Table>) {}
+  constructor(private store: Store<Transactions>) {}
 
   ngOnInit() {
     this.getTableData();
@@ -45,11 +44,6 @@
     if (!this._isExpansionIndicator(event.target)) {
       matExpansionPanel.toggle();
     }
-  }
-
-  private _isExpansionIndicator(target): boolean {
-    const expansionIndicatorClass = 'mat-expansion-indicator';
-    return (target.classList && target.classList.contains(expansionIndicatorClass));
   }
 
   editTitle(event) {
@@ -69,11 +63,11 @@
   }
 
   getTotalCost() {
-    return _.map(this.dataSource, t => t.amount).reduce((acc, value) => acc + value, 0);
+    return _.map(this.dataSource.data, t => t.amount).reduce((acc, value) => acc + value, 0);
   }
 
   addItem(data) {
-    let createTableAction: AppAction<Transaction> = {
+    let createTableAction: AppAction<any> = {
       type: ADD_NEW_ROW,
       payload: { name: data.name, amount: data.amount }
     }
@@ -81,19 +75,23 @@
     this.store.dispatch(createTableAction);
   }
 
+  private _isExpansionIndicator(target): boolean {
+    const expansionIndicatorClass = 'mat-expansion-indicator';
+    return (target.classList && target.classList.contains(expansionIndicatorClass));
+  }
+
   private getTableData() {
     this.tableState$ = this.store.pipe(select('tableData'));
-
-    let getToDoAction: Action = {
+    let getAction: Action = {
       type: GET_TABLE_DATA      
     }
-    this.subscription = this.tableState$.subscribe(table => {
-      console.log(table,'data')
+
+    this.subscription = this.tableState$.subscribe((table) => {
       this.dataSource = new MatTableDataSource(table._data);
       this.updateDataSource();
     });
 
-    this.store.dispatch(getToDoAction);
+    this.store.dispatch(getAction);
   }
 
   private updateDataSource() {

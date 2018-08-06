@@ -1,4 +1,8 @@
 export default interface Transaction {
-    name: string;
-    amount: number;
-  }
+_data: Table[]
+}
+
+interface Table {
+  name: string;
+  amount: number;
+}
