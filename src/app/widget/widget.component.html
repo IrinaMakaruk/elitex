@@ -1,7 +1,7 @@
 <div class="elitex-widget">
   <mat-accordion>
     <mat-expansion-panel #matExpansionPanel>
-      <mat-expansion-panel-header collapsedHeight="70px" (click)="expandPanel(matExpansionPanel, $event)">
+      <mat-expansion-panel-header collapsedHeight="70px" (click)="expandPanel(matExpansionPanel,$event)">
         <div class="title">
         <mat-panel-title *ngIf="!edit" class="panel-title-text">
          {{title}}
@@ -10,7 +10,7 @@
             </span>
         </mat-panel-title>
         <mat-panel-title *ngIf="edit">
-        <mat-form-field (keydown)="handleSpacebar($event)" hintLabel="Max 10 characters">
+        <mat-form-field (keydown)="handleSpacebar($event)" hintLabel="Max 20 characters">
             <input matInput #input placeholder="title" maxlength="20" [(ngModel)]="title">
             <mat-hint align="end">{{input.value?.length || 0}}/20</mat-hint>
             <span matSuffix mat-icon-button aria-label="Clear" (click)="saveEditedTitle(title)">
