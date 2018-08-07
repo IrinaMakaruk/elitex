@@ -4,4 +4,4 @@ export const initializeState = (): Transactions => {
   return ({
     _data : [{name: 'No Data', amount: 0}]
   });
-}
+};

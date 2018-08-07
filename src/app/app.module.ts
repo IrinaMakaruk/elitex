@@ -3,9 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store'
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,13 +19,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
-import { Widget } from './widget/widget.component';
-import { AddItemComponent } from './widget/add-item/add-item.component'
-import { Header } from './header/header.component';
-import { Footer } from './footer/footer.component';
+import { WidgetComponent } from './widget/widget.component';
+import { AddItemComponent } from './widget/add-item/add-item.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 import { WidgetService } from './widget/widget.service';
-import { Api } from './api/api.http';
 import { AppReducer } from './app.reducer';
 import { AppEffects } from './app.effects';
 
@@ -34,23 +32,20 @@ import { AppEffects } from './app.effects';
   declarations: [
     AppComponent,
     AddItemComponent,
-    Header,
-    Footer,
-    Widget
+    HeaderComponent,
+    FooterComponent,
+    WidgetComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    // HttpClientInMemoryWebApiModule.forRoot(
-    //   Api, { dataEncapsulation: false }
-    // ),
     StoreModule.forRoot({ tableData: AppReducer }),
     EffectsModule.forRoot([AppEffects]),
 
     HttpClientModule,
-    
+
     MatToolbarModule,
     MatIconModule,
     MatExpansionModule,
@@ -62,7 +57,7 @@ import { AppEffects } from './app.effects';
     MatButtonModule,
     MatCardModule
   ],
-  providers:[WidgetService],
+  providers: [WidgetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

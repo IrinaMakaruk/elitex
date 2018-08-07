@@ -44,7 +44,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
             </table>
-            <add-item (rowData)="addItem($event)"></add-item>
+            <app-add-item (rowData)="addItem($event)"></app-add-item>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" ></mat-paginator>
           </div>
     </mat-expansion-panel>

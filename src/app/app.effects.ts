@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
 
-import { Actions, Effect ,ofType } from '@ngrx/effects';
-import { map, catchError } from 'rxjs/operators'
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { map, catchError } from 'rxjs/operators';
 
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -26,7 +25,7 @@ export class AppEffects {
           )
         )
       )
-    ); 
+    );
 
     constructor(
       private widgetService: WidgetService,

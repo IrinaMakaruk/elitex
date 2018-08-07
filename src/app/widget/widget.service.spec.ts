@@ -2,10 +2,13 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { WidgetService } from './widget.service';
 
+import { HttpClientModule } from '@angular/common/http';
+
 describe('WidgetService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [WidgetService]
+      providers: [WidgetService],
+      imports: [HttpClientModule]
     });
   });
 

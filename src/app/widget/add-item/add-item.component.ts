@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 
 
 @Component({
-  selector: 'add-item',
+  selector: 'app-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss']
 })
@@ -16,13 +16,13 @@ export class AddItemComponent implements OnInit {
   patterns = {
     name: '^[a-zA-Z ]*$',
     amount: '^[0-9.]+$'
-  }
+  };
   errorMessages = {
     namePattern : 'Value should contain only alphabets & blankspace',
     amountPattern: 'Value should contain only numbers and dot',
     required: 'This field is required',
     maxLength: 'Value should not be longer then 20 symbols'
-  }
+  };
 
   @Output() rowData = new EventEmitter<Object>();
 
@@ -37,7 +37,7 @@ export class AddItemComponent implements OnInit {
    addItem() {
     const result = {...this.addExpanseForm.value};
     this.rowData.emit(result);
-    this.addExpanseForm.setValue({name:'', amount:''});
+    this.addExpanseForm.setValue({name: '', amount: ''});
    }
 
    onChange(control, controlName) {
@@ -47,13 +47,15 @@ export class AddItemComponent implements OnInit {
    checkValidity(form) {
       const setValidation = !this.nameFormControl.value && !this.amountFormControl.value;
       const setDisabled = !form.valid ||  !this.nameFormControl.value || !this.amountFormControl.value;
-      
-      setValidation ? this.amountFormControl.clearValidators() && this.nameFormControl.clearValidators() : false;
-      
+
+      setValidation ?
+        this.amountFormControl.clearValidators() &&
+        this.nameFormControl.clearValidators() : false;
+
       return setDisabled;
    }
 
-  private initForm(formBuilder: FormBuilder){
+  private initForm(formBuilder: FormBuilder) {
     return formBuilder.group({
       name: new FormControl(''),
       amount: new FormControl('')

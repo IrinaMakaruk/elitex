@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators'
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class WidgetService {
-  private apiUrl = 'http://localhost:4200/assets/data.json';
+  private apiUrl = 'http://localhost:4200/assets/api/data.json';
 
   constructor(private http: HttpClient) { }
 

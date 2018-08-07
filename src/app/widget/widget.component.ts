@@ -1,33 +1,34 @@
-  import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
-  import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
-  import * as _ from 'lodash';
+import * as _ from 'lodash';
 
-  import Transactions from '../api/interface';
-  import { WidgetService } from './widget.service';
+import Transactions from '../api/interface';
+import { WidgetService } from './widget.service';
 
-  import { Store, select, Action } from '@ngrx/store';
-  import { Observable, Subscription } from 'rxjs';
-  
-  import { ADD_NEW_ROW, GET_TABLE_DATA} from '../app.actions';
-  import AppAction from '../app.actions';
+import { Store, select, Action } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
-  @Component({
-  selector: 'widget',
-  templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.scss'],
-  providers: [WidgetService],
-  })
+import { ADD_NEW_ROW, GET_TABLE_DATA } from '../app.actions';
+import AppAction from '../app.actions';
 
-  export class Widget implements OnInit {
+@Component({
+selector: 'app-widget',
+templateUrl: './widget.component.html',
+styleUrls: ['./widget.component.scss'],
+providers: [WidgetService],
+})
+
+export class WidgetComponent implements OnInit, OnDestroy {
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  title: string = 'Expenses';
-  edit: boolean = false;
+  title = 'Expenses';
+  edit = false;
   totalCost: number;
-  panelOpenState: boolean = false;
+  panelOpenState = false;
   displayedColumns: string[] = ['name', 'amount'];
   dataSource: MatTableDataSource<Transactions>;
   tableState$: Observable<any>;
@@ -39,9 +40,13 @@
     this.getTableData();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   expandPanel(matExpansionPanel, event: Event): void {
     event.stopPropagation();
-    
+
     if (!this._isExpansionIndicator(event.target)) {
       matExpansionPanel.toggle();
     }
@@ -68,10 +73,10 @@
   }
 
   addItem(data) {
-    let createTableAction: AppAction<any> = {
+    const createTableAction: AppAction<any> = {
       type: ADD_NEW_ROW,
       payload: { name: data.name, amount: Number(data.amount)}
-    }
+    };
     this.updateDataSource();
     this.store.dispatch(createTableAction);
   }
@@ -83,9 +88,9 @@
 
   private getTableData() {
     this.tableState$ = this.store.pipe(select('tableData'));
-    let getAction: Action = {
-      type: GET_TABLE_DATA      
-    }
+    const getAction: Action = {
+      type: GET_TABLE_DATA
+    };
     this.subscription = this.tableState$.subscribe((table) => {
       this.dataSource = new MatTableDataSource(table._data);
       this.updateDataSource();
@@ -96,8 +101,7 @@
 
   private updateDataSource() {
     const sum = obj => _.sum(_.map(obj.data, t => t.amount));
-    const setValue = val => this.dataSource[val] = this['val']
-    setValue('paginator');
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.totalCost = sum(this.dataSource);
   }

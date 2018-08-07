@@ -1,5 +1,5 @@
 export default interface Transaction {
-_data: Table[]
+  _data: Table[];
 }
 
 interface Table {
